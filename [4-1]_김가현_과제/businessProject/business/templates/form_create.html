@@ -1,0 +1,9 @@
+<h1>편의점 신상 디저트 리뷰하기 :~> </h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }} 
+        <!-- .as_p 는 p 태그가 감싸진 것처럼 해줌 / .as_ul은 ul 태그가 감싸진 것처럼 보임 -->
+    </table>
+    <input type="submit" value="새 글 작성하기">
+</form>
