@@ -1,0 +1,15 @@
+<h1>편의점 신상 디저트 리뷰하기 :~> </h1>
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }} 
+            </table>
+            <input type="submit" value="새 글 작성하기">
+        </form>
+        
+    </div><br>
+    
+</form>
