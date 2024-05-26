@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Nova Bootstrap Template - About</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+
+  
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+ 
+</head>
+
+<body class="page-about">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="d-flex align-items-center">Nova</h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{%url 'about_list' %}" class="active">게시글 목록</a></li>
+          <li><a href="{% url 'service' %}">Services</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+              <li><a href="#">Dropdown 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                <ul>
+                  <li><a href="#">Deep Dropdown 1</a></li>
+                  <li><a href="#">Deep Dropdown 2</a></li>
+                  <li><a href="#">Deep Dropdown 3</a></li>
+                  <li><a href="#">Deep Dropdown 4</a></li>
+                  <li><a href="#">Deep Dropdown 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Dropdown 2</a></li>
+              <li><a href="#">Dropdown 3</a></li>
+              <li><a href="#">Dropdown 4</a></li>
+            </ul>
+          </li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+   <!-- ======= Breadcrumbs ======= -->
+   <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/about-header.jpg');">
+    <div class="container position-relative d-flex flex-column align-items-center">
+      <div class="post-heading">
+        <h1>게시글 상세 페이지</h1>
+        <h2 class="subheading">게시글 별 상세페이지</h2>
+    </div>
+      
+    <article class="mb-4">
+      <div class="container px-4 px-lg-5">
+          <div class="row gx-4 gx-lg-5 justify-content-center">
+              <div class="col-md-10 col-lg-8 col-xl-7">
+                  {% if request.user == post.author %}
+                  <div class = "d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'post_update' post.id %}">수정하기</a></div>
+                  <div class = "d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'post_delete' post.id %}">삭제하기</a></div>
+                  {% endif %}
+                  <h1 class="section-heading"> {{post.title}} </h1>
+                  <h3>작성자 : {{ post.author }}</h3>
+                  <blockquote class="blockquote"> {{post.created_at}} </blockquote>
+                  {% if post.photo %}
+                  <img src ="{{ post.photo.url }}" alt ="" height="300">
+                  {% endif %}                        
+                  <p>{{post.body}}</p>
+              </div>
+              <h4>댓글</h4>
+              {%if user.is_authenticated %}
+              <form method ="POST" action="{% url 'create_comment' post.id %}">
+                  {% csrf_token %}
+                  {{comment_form}}
+                  <input type = "submit">
+              </form>
+              {% else %}
+              <h>댓글 작성은 로그인 후 사용해주세요</h>
+              {% endif %}
+          </div>
+          <hr>
+
+          
+         {% for comment in post.comment_set.all %}
+    <p>{{ comment }}</p>
+    <a class="btn btn-primary text-uppercase" 
+		    href="{% url 'update_comment' post.id comment.id %}">댓글 수정</a>
+        <a class="btn btn-primary text-uppercase" href="{% url 'delete_comment' post.id comment.id %}">댓글 삭제</a>
+    <hr>
+{% endfor %}
+      </div>
+  </article>
+  
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- ======= About Section ======= -->
+ 
+</body>
+
+</html>
