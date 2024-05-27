@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>도그룸</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3">강아지 용품 전문 쇼핑몰</span>
+                <span class="site-heading-lower"><b>Dog Room</b></span>
+            </h1>
+        </header>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Dog Room</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'home' %}">Home</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'about' %}">About</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'post_list' %}">Products</a></li>
+                        <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'store' %}">Review</a></li> -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+       
+        <footer class="footer text-faded text-center py-5">
+             <!-- Page Header-->
+        <header class="masthead">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <!-- <div class="post-heading">
+                            <h1>상품 자세히 보기</h1>
+                            <h2 class="subheading">상품 안내페이지</h2>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 여기서 부터 -->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <!-- 글 수정 / 삭제 -->
+                        {% if request.user == post.author %}
+                            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'post_update' post.id %}"><b>상품 수정</b></a></div>
+                            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'post_delete' post.id %}"><b>상품 삭제</b></a></div>
+                        {% endif %}
+                        <!--글 수정/삭제 여기까지-->
+                        <h1 class="section-heading" style="color: orange; font-family:Arial, Helvetica, sans-serif"><b>{{post.title}}</b></h1>
+                        <!-- <h6 style="color: grey">작성자 : {{post.author}}</h6> -->
+                        <h6 style="color: lightyellow">{{post.created_at}}</h6><br>
+                        {% if post.photo %}
+                            <img src="{{ post.photo.url }}" alt="" height="330">
+                        {% endif %}
+                        <br><br>
+                        <p style="width: 80%; margin: 0 auto; font-family:Arial, Helvetica, sans-serif">{{post.body}}</p><br><br>
+                    </div>
+                    <!-- <hr class="my-4" /> -->
+
+                    <br><h2 style="color: orange"><b>Review</b></h2>
+                    <!--댓글 작성-->
+                    {%if user.is_authenticated %}
+                    <form method="POST" action="{% url 'create_comment' post.id %}">
+                        {% csrf_token %}
+                        {{comment_form}}
+                        <br><input type="submit">
+                    </form>
+                    {%else %}
+                    <h6>댓글 작성은 로그인 후 사용해주세요</h6>
+                    {% endif %}
+                    <!--댓글 작성 여기까지-->
+
+                    
+                    <div>
+                        <hr>
+                        <!--댓글 목록 조회-->
+                        {% for comment in post.comment_set.all %}
+                        <h6 style="color: grey">작성자 : {{comment.author}}</h6><br>
+                        <!-- <h6 style="color: grey">작성시간 : {{comment.created_at}}</h6><br> -->
+                        <h5>{{ comment }}</h5>
+                        {% if request.user == comment.author %}
+                        <a class="btn btn-primary text-uppercase" href="{% url 'update_comment' post.id comment.id %}"><b>댓글 수정</b></a>
+                        <a class="btn btn-primary text-uppercase" href="{% url 'delete_comment' post.id comment.id %}"><b>댓글 삭제</b></a>
+                        {%endif %}
+                        <hr>
+                        {% endfor %}
+                        <!--댓글 목록 조회 여기까지-->
+                    </div>
+                    <!-- <hr class="my-4" /> -->
+                </div>
+            </div>
+        </article>
+        <!-- 여기까지 -->
+
+            <div class="container"><p class="m-0 small">강아지 용품 쇼핑은 도그룸에서!</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

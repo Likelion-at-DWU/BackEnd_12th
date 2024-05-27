@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>도그룸</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3">강아지 용품 전문 쇼핑몰</span>
+                <span class="site-heading-lower"><b>Dog Room</b></span>
+            </h1>
+        </header>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Dog Room</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'home' %}">Home</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'about' %}">About</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'post_list' %}">Products</a></li>
+                        <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'store' %}">Review</a></li> -->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+       
+        <footer class="footer text-faded text-center py-5">
+             <!-- Post Content-->
+        <br>
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+
+                    <!-- 여기서부터 -->
+                    <!-- 게시글 하나의 preview -->
+                    {% for post in posts %}
+                        <div class="post-preview">
+                            <a href="{% url 'post_detail' post.id %}" style="text-decoration: none;">
+                                <!-- <p> {{ posts }} </p>  -->
+                                <h2 class="post-title" style= "font-family:Arial, Helvetica, sans-serif"><b>{{post.title}}</b></h2>
+                                <!-- <h6 class="post-author" style="color: grey">상품 작성자 : {{post.author}}</h6><br> -->
+                                <h5 class="post-subtitle" style="width: 40%; margin: 0 auto; color: lightyellow; font-family:Arial, Helvetica, sans-serif">{{ post.body }}</h5>
+                            </a>
+                            <br>
+                            <p class="post-meta">{{ post.created_at }}</p>
+                        </div>
+                        <!-- 구분선 -->
+                        <hr class="my-4" />
+                    {% endfor %}
+                    <!-- 페이지네이션 -->
+                    <div>
+                        {% if posts.has_previous %} <!--지금 잘라서 보여주는 posts의 목록이 이전 페이지가 있다면-->
+                        <a href="?page=1" style="text-decoration: none;">첫 페이지</a>
+                        <a href="?page={{posts.previous_page_number}}" style="text-decoration: none;">이전 페이지</a> <!--posts의 이전 페이지 숫자를 반환해라-->
+                        {% endif %}
+
+                        <span> {{ posts.number }} </span> <!--현재 페이지 넘버-->
+                        <span> / </span>
+                        <span> {{ posts.paginator.num_pages }} </span> <!--잘린 posts가 갖고 있는 총 페이지 수 반환-->
+
+                        {% if posts.has_next %} <!--다음 페이지가 있다면-->
+                        <a href="?page={{posts.next_page_number}}" style="text-decoration: none;">다음 페이지</a>
+                        <a href="?page={{posts.paginator.num_pages}}" style="text-decoration: none;">마지막 페이지</a>
+                        {% endif %}
+                    </div>
+                    <!-- 페이지네이션 끝 --> 
+                </div>
+            </div>
+        </article>
+            <div class="container"><p class="m-0 small">강아지 용품 쇼핑은 도그룸에서!</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
