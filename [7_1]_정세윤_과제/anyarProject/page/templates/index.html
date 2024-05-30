@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>withUS</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/icons8-지구-64.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Anyar
+  * Template URL: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/
+  * Updated: Mar 17 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="fixed-top d-flex align-items-center ">
+    <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        {% if user.is_authenticated %}
+        <i class="bi bi-person-circle"></i> {{ user }} 님
+        {% else %}
+        로그인 후 이용해주세요
+        {% endif %}
+      </div>
+      <div class="cta d-none d-md-block">
+        <!--게시글 작성-->
+        {% if user.is_authenticated %}
+        <a href="{% url 'accounts:logout' %}" class="scrollto">로그아웃</a>
+        
+        {% else %}
+        <a href="{% url 'accounts:signup' %}" class="scrollto">회원가입</a>
+        <a href="{% url 'accounts:login' %}" class="scrollto">로그인</a>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center ">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="{% url 'page' %}">withUS</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href=index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{% url 'page' %}">Home</a></li>
+          <li><a href="{%url 'post_list' %}">Posts</a></li>
+          {% if user.is_authenticated %}
+          <li><a class="nav-link scrollto" href="{% url 'bookmark_list' %}">Bookmarks</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'accounts:logout' %}">Log out</a></li>
+          {% else %}
+          <li><a class="nav-link scrollto" href="" onclick="alert('로그인 후 사용하실 수 있습니다.')">Bookmarks</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'accounts:signup' %}">Sign up</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'accounts:login' %}">Login</a></li>          
+          {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex justify-cntent-center align-items-center">
+    <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
+
+      <!-- Slide 1 -->
+      <div class="carousel-item active">
+        <div class="carousel-container">
+          <h2 class="animate__animated animate__fadeInDown">Welcome to <span>withUS</span></h2>
+          <p class="animate__animated animate__fadeInUp"><b>withUS</b>에 오신 것을 환영합니다.<br><b>withUS</b>는 소셜 네트워크 웹 서비스로서 여러분들에게 자유로운 의사소통과 정보 공유 공간을 제공합니다.</p>
+          <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-item">
+        <div class="carousel-container">
+          <h2 class="animate__animated animate__fadeInDown">Join with other users!</h2>
+          <p class="animate__animated animate__fadeInUp">withUS에서 다양한 유저들을 만나보세요. 로그인, 회원가입 후 다른 유저들의 글을 읽고, 댓글을 달아보세요. 다른 유저들과의 소통과 교류는 자신의 생각과 견해를 넓히는 데에 도움이 된답니다.</p>
+          <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-item">
+        <div class="carousel-container">
+          <h2 class="animate__animated animate__fadeInDown">Open your new world!</h2>
+          <p class="animate__animated animate__fadeInUp">자신만의 생각이 담긴 개성 있는 글로 자신을 표현해보고 자신만의 세계를 펼쳐보세요. 글과 함께 사진 또한 첨부할 수 있습니다. 게시글을 올린 후 다른 유저들의 반응을 실시간으로 확인할 수 있습니다.</p>
+          <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
+        </div>
+      </div>
+
+      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
+      </a>
+
+      <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
+      </a>
+
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Icon Boxes Section ======= -->
+    <section id="icon-boxes" class="icon-boxes">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-at"></i></div>
+              {% if user.is_authenticated %}
+              <h4 class="title"><a href="" onclick="alert('이미 로그인된 상태입니다.')">Sign up</a></h4>
+              {% else %}
+              <h4 class="title"><a href="{% url 'accounts:signup' %}">Sign up</a></h4>
+              {% endif %}
+              <p class="description">withUS에 처음 방문하시는군요? withUS에 회원가입 한 후 다양한 서비스를 이용해보세요! 여러분의 친구들도 이미 withUS에서 함께하고 있습니다.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-person-lock"></i></div>
+              {% if user.is_authenticated %}
+              <h4 class="title"><a href="" onclick="alert('이미 로그인된 상태입니다.')">Login</a></h4>
+              {% else %}
+              <h4 class="title"><a href="{% url 'accounts:login' %}">Login</a></h4>
+              {% endif %}
+              <p class="description">회원가입을 한 상태라면 본인의 id로 로그인해보세요. 로그인 후 게시글과 댓글을 작성해보세요!</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4 class="title"><a href="{%url 'post_list' %}">Post</a></h4>
+              <p class="description">withUS에서 자신의 생각을 게시글로 남겨보세요. 다른 유저들이 쓴 글도 읽을 수 있답니다. 댓글을 달아 작성자와 소통해보세요!</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-bookmarks"></i></div>
+              {% if user.is_authenticated %}
+              <h4 class="title"><a href="{% url 'bookmark_list' %}">Bookmark</a></h4>
+              {% else %}
+              <h4 class="title"><a href="" onclick="alert('로그인 후 사용하실 수 있습니다.')">Bookmark</a></h4>
+              {% endif%}
+              <p class="description">withUS에는 북마크 기능이 있습니다. 인상 깊은 게시글을 북마크해두고 다시 보세요!</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Icon Boxes Section -->
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About 'withUS'</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p>
+              withUS에서는 여러분들을 위해 다양한 기능을 제공합니다.
+            </p>
+            <ul>
+              <li><i class="ri-check-double-line"></i>회원가입, 로그인</li>
+              <li><i class="ri-check-double-line"></i>게시글, 댓글 작성</li>
+              <li><i class="ri-check-double-line"></i>북마크</li>
+            </ul>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <p>
+              회원가입 후 로그인 하여 자신의 글을 남겨주세요. 사진도 첨부할 수 있답니다!
+              <br>
+              또한 다른 사람의 글을 읽고 댓글을 남겨보세요.
+              <br>
+              마음에 드는 글이 있다면 북마크한 후 Bookmarks 페이지에서 모아볼 수 있습니다.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Contact</h2>
+        </div>
+
+        <div class="row mt-1 d-flex justify-content-end" data-aos="fade-right" data-aos-delay="100">
+
+          <div class="col-lg-5">
+            <div class="info">
+              <div class="email">
+                <i class="bi bi-envelope"></i>
+                <h4>Email:</h4>
+                <p> skaahremd23@gmail.com</p>
+              </div>
+
+              <div class="phone">
+                <i class="bi bi-github"></i>
+                <h4>GitHub:</h4>
+                <p><a href="https://github.com/yunnij" target="_blank">https://github.com/yunnij</a></p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Anyar</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
