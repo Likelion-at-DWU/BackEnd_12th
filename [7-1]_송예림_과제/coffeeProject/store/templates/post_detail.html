@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Business Casual - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <span class="my-4 text-center text-faded d-none d-lg-block">
+                <h4 class="text-primary"><b>내돈내산 카페 이용 후기</b></h4>
+                <h1><b>About Coffee</b></h1>
+                <!--회원가입/로그인 시작-->
+                {% if user.is_authenticated %}
+                <div class="d-flex justify-content-end mb-4">
+                    <a class="btn btn-primary text-uppercase" style="margin-right:7rem;" href="{% url 'accounts:logout' %}"><b>로그아웃</b></a>
+                </div>
+                {% else %}
+                <div class="d-flex justify-content-end ">
+                    <a class="btn btn-primary text-uppercase me-4" href="{% url 'accounts:signup' %}"><b>회원가입</b></a> 
+                    <a class="btn btn-primary text-uppercase" style="margin-right:7rem;" href="{% url 'accounts:login' %}"><b>로그인</b></a>
+                </div>
+                <!-- <div class="d-flex justify-content-end mb-4 me-4"></div> -->
+                {% endif %}
+                <!--회원가입/로그인 끝-->
+            </span>
+        </header>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark py-lg-2 mb-4" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'home' %}">Home</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'about' %}">About</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'products' %}">Products</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'post_list' %}">review</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>   
+        <section class="" style="background-color: #F6E1C5; padding-top: 3rem; padding-bottom: 3rem;">
+            <!-- <h3 class="section-heading text-center mb-5">
+                <b>게시글 상세페이지</b>
+            </h3> -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="bg-faded rounded"style="position: relative; padding: 3rem; margin: 0.5rem; border: 0.25rem solid rgba(33, 37, 41, 0.1);">
+                            <!-- 작성한 글 보여주기 -->
+                            <h2 class="section-heading text-center"><b> {{post.title}} </b></h2>
+                            {% if request.user == post.author %}
+                            <div class="d-flex justify-content-end mb-4">
+                                <a class="btn btn-primary text-uppercase me-2" href="{% url 'post_update' post.id %}"><b>수정하기</b></a>
+                                <a class="btn btn-primary text-uppercase" href="{% url 'post_delete' post.id %}"><b>삭제하기</b></a>
+                            </div>
+                            {% endif %}
+                            <hr>
+                            <h6 class="text-end">작성자 : {{post.author}}</h6>
+                            <blockquote class="blockquote text-end"><h6> {{post.created_at}} </h6></blockquote>
+                            <!-- 내용 보여주기 -->
+                            {% if post.photo %}
+                            <img src="{{ post.photo.url }}" alt="" height="300">
+                            {% endif %}
+                            <p><h4 class="text-center"> {{post.body}} </h4></p>
+                            <form action="{% url 'likes' post.id %}" method='POST'>
+                                {% csrf_token %}
+                                <button style='border:none;' class="text-end">
+                                  {% if request.user in post.like_users.all %}
+                                  <!-- <img class="img-fluid rounded about-heading-img mb-2 mb-lg-0" src="{%static 'assets/img/good.png' %}" alt="..." /> -->
+                                  👍
+                                  {% else %}
+                                  👍
+                                  {% endif %}
+                                </button>
+                                <span class="text-end">
+                                  {{ post.like_users.all|length }} 명이 이 글을 좋아합니다.
+                                </span>
+                              </p>
+                            </form>
+                            <hr>
+                            <!--댓글 작성-->
+                            <div style="background-color: #FAF5EB; padding:2rem 2rem 2rem 2rem;">
+                                <!-- <h4>댓글</h4> -->
+                                {% if user.is_authenticated %}
+                                <form method="POST" action="{% url 'create_comment' post.id %}">
+                                    {% csrf_token %}
+                                    {{comment_form}}
+                                    <input type="submit">
+                                </form>
+                                {% else %}
+                                <h5 style="color:#DF4D4D;"><b>댓글 작성은 로그인 후 사용해주세요</b></h5>
+                                {% endif %}
+                                <!-- 댓글 작성 여기까지 -->
+                                <div>
+                                    <hr>
+                                    <!--댓글 목록 조회-->
+                                    {% for comment in post.comment_set.all %}
+                                    <p>댓글 작성자 : {{comment.author}}</p>
+                                    <p>{{ comment }} &nbsp; 
+                                    <!--댓글 수정/삭제-->
+                                    {% if request.user == comment.author %}
+                                    <a class="btn btn-primary text-uppercase me-2" 
+                                        href="{% url 'update_comment' post.id comment.id %}"><b>댓글 수정</b></a>
+                                    <a class="btn btn-primary text-uppercase"   
+                                        href="{% url 'delete_comment' post.id comment.id %}"><b>댓글 삭제</b></a>
+                                    {% endif %}
+                                    <!--댓글 수정/삭제 여기까지-->
+                                    </p>
+                                    <hr>
+                                    <!-- </p> -->
+                                    {% endfor %}
+                                    <!--댓글 목록 조회 여기까지-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4 mb-4 me-4">
+                            <a class="btn btn-primary text-uppercase" href="{%url 'post_list' %}"><b>게시글 목록</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="footer text-faded text-center py-5">
+            <div class="container"><p class="m-0 small">Copyright &copy; Your Website 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

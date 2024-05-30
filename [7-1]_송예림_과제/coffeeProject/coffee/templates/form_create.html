@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Business Casual - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <title>후기 작성</title>
+</head>
+<body>
+    <header>
+        <span class="my-4 text-center text-faded d-none d-lg-block mb-4">
+            <h4 class="text-primary"><b>내돈내산 카페 이용 후기</b></h4>
+            <h1><b>About Coffee</b></h1>
+        </span>
+    </header>
+    <div class="py-5 " style="background-color:#F6E1C5; padding-left:35%;" >
+        <h2><b>후기 작성 페이지</b></h2><br>
+        {% if user.is_authenticated %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            <!-- enctype : 파일 저장 폼에 사용하는 인코딩 타입-->
+            {% csrf_token %}
+            <div>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        {{ form.as_table }}  <!-- .as_p 는 p 태그가 감싸진 것처럼 해줌 / .as_ul은 ul 태그가 감싸진 것처럼 보임 -->
+                    </table><br>
+                    <input type="submit" value="새 글 작성하기">
+                </form>      
+            </div><br>
+        </form> 
+        {% else %}
+        <h2 style="color:#DF4D4D;"><b>후기 작성은 로그인 후 사용해주세요</b></h2>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+<!-- <h1>Model form을 이용한 새 글 작성 페이지</h1>
+<form action="" method="POST" enctype="multipart/form-data"> -->
+    <!-- enctype : 파일 저장 폼에 사용하는 인코딩 타입-->
+    <!-- {% csrf_token %}
+    <div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}   -->
+                <!-- .as_p 는 p 태그가 감싸진 것처럼 해줌 / .as_ul은 ul 태그가 감싸진 것처럼 보임 -->
+            <!-- </table>
+            <input type="submit" value="새 글 작성하기">
+        </form>      
+    </div> <br>
+</form>  -->

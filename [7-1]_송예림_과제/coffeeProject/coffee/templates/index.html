@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Business Casual - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <!-- <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-2">내돈내산 카페 이용 후기</span>
+                <span class=""><b>About Coffee</b></span>
+            </h1> -->
+            <span class="my-4 text-center text-faded d-none d-lg-block">
+                <h4 class="text-primary"><b>내돈내산 카페 이용 후기</b></h4>
+                <h1><b>About Coffee</b></h1>
+                <!--회원가입/로그인 시작-->
+                {% if user.is_authenticated %}
+                <div class="d-flex justify-content-end mb-4">
+                    <a class="btn btn-primary text-uppercase" style="margin-right:7rem;" href="{% url 'accounts:logout' %}"><b>로그아웃</b></a>
+                </div>
+                {% else %}
+                <div class="d-flex justify-content-end ">
+                    <a class="btn btn-primary text-uppercase me-4" href="{% url 'accounts:signup' %}"><b>회원가입</b></a> 
+                    <a class="btn btn-primary text-uppercase" style="margin-right:7rem;" href="{% url 'accounts:login' %}"><b>로그인</b></a>
+                </div>
+                <!-- <div class="d-flex justify-content-end mb-4 me-4"></div> -->
+                {% endif %}
+                <!--회원가입/로그인 끝-->
+            </span>
+        </header>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark py-lg-2 mb-4" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'home' %}">Home</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'about' %}">About</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'products' %}">Products</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{%url 'post_list' %}">review</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <section class="clearfix">
+            <div class="container">
+                <!-- <div class="d-flex justify-content-end me-5 mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'create' %}"><b>새글 작성하기</b></a></div> -->
+                <div class="intro">
+                    <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="{%static 'assets/img/cafe.jpg' %}" alt="..." />
+                    <div class="intro-text left-0 text-center bg-faded p-5 rounded">
+                        <h2 class="section-heading mb-4">
+                            <span class="section-heading-upper">About Coffee</span>
+                        </h2>
+                        <p class="mb-3">
+                            🏞가봤던 카페 중 풍경이 예뻤던 곳!<br>👍카페 인테리어가 마음에 들었던 곳!<br>
+                            ☕커피가 맛있었던 곳!<br>😁사장님이 너무 친절했던 곳!<br>
+                            어디든 상관없이 내돈내산의 솔직한 카페 이용 후기를 들려주세요<br>
+                            여러분들의 다양한 카페 이용 후기를 기다립니다!!
+                        </p>
+                        <div class="intro-button py-5"><a class="btn btn-primary text-uppercase " href="{% url 'create' %}"><b>후기 작성하기</b></a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center rounded">
+                            <h2 class="section-heading mb-4">
+                                <span class="section-heading-upper">Our Promise</span>
+                                <span class="section-heading-lower">To You</span>
+                            </h2>
+                            <p class="mb-0">When you walk into our shop to start your day, we are dedicated to providing you with friendly service, a welcoming atmosphere, and above all else, excellent products made with the highest quality ingredients. If you are not satisfied, please let us know and we will do whatever we can to make things right!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+        
+        <footer class="footer text-faded text-center py-5 mt-4">
+            <div class="container"><p class="m-0 small">Copyright &copy; Your Website 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
