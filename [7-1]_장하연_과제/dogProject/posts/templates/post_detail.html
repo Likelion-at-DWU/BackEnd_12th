@@ -24,7 +24,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
             <div class="container">
-                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Dog Room</a>
+                <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="{%url 'home' %}">Dog Room</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
@@ -53,10 +53,10 @@
         </header>
 
         <!-- 여기서 부터 -->
-        <article class="mb-4">
+        <article class="mb-4" style="width: 80%; margin: 0 auto;">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="col-md-10 col-lg-8 col-xl-7" style="text-align: center;">
                         <!-- 글 수정 / 삭제 -->
                         {% if request.user == post.author %}
                             <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{% url 'post_update' post.id %}"><b>상품 수정</b></a></div>
@@ -70,37 +70,43 @@
                             <img src="{{ post.photo.url }}" alt="" height="330">
                         {% endif %}
                         <br><br>
-                        <p style="width: 80%; margin: 0 auto; font-family:Arial, Helvetica, sans-serif">{{post.body}}</p><br><br>
+                        <p style=" font-family:Arial, Helvetica, sans-serif">{{post.body}}</p><br><br>
                     </div>
                     <!-- <hr class="my-4" /> -->
 
-                    <br><h2 style="color: orange"><b>Review</b></h2>
+                    <br><h2 style="color: orange; width: 60%; margin: 0 auto;"><b>Review</b></h2>
                     <!--댓글 작성-->
                     {%if user.is_authenticated %}
-                    <form method="POST" action="{% url 'create_comment' post.id %}">
+                    <br><br>
+                    <form method="POST" action="{% url 'create_comment' post.id %}" >
                         {% csrf_token %}
                         {{comment_form}}
                         <br><input type="submit">
                     </form>
                     {%else %}
-                    <h6>댓글 작성은 로그인 후 사용해주세요</h6>
+                    <h6 style="width: 60%; margin: 0 auto;"><br>리뷰 작성은 로그인 후 사용해주세요</h6>
                     {% endif %}
                     <!--댓글 작성 여기까지-->
 
                     
-                    <div>
+                    <div style="width: 60%; margin: 0 auto;">
                         <hr>
+                      
                         <!--댓글 목록 조회-->
                         {% for comment in post.comment_set.all %}
-                        <h6 style="color: grey">작성자 : {{comment.author}}</h6><br>
+                        <h6 style="color: grey; text-align: left;">작성자 : {{comment.author}}</h6><br>
                         <!-- <h6 style="color: grey">작성시간 : {{comment.created_at}}</h6><br> -->
-                        <h5>{{ comment }}</h5>
+                        <h5 style="text-align: left;">{{ comment }}</h5>
                         {% if request.user == comment.author %}
+                        <br>
+                        <div style="text-align: left;">
                         <a class="btn btn-primary text-uppercase" href="{% url 'update_comment' post.id comment.id %}"><b>댓글 수정</b></a>
                         <a class="btn btn-primary text-uppercase" href="{% url 'delete_comment' post.id comment.id %}"><b>댓글 삭제</b></a>
+                        </div>
                         {%endif %}
                         <hr>
                         {% endfor %}
+                   
                         <!--댓글 목록 조회 여기까지-->
                     </div>
                     <!-- <hr class="my-4" /> -->
