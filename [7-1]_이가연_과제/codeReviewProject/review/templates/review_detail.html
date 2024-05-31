@@ -1,0 +1,164 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Code Review</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="">Code Review</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{%url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{%url 'project' %}">Project</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{%url 'review_list' %}">Review</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{%url 'member' %}">Member</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Header-->
+        <header class="masthead">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>CODE REVIEW  상세페이지</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        <!-- 여기서 부터 -->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <!-- 수정하기, 삭제하기 버튼 -->
+                        {% if request.user == review.author %}
+                        <div class="d-flex justify-content-end mb-4">
+                            <a class="btn btn-primary text-uppercase" href="{% url 'review_update' review.id %}">수정하기</a>
+                        </div>
+                        <div class="d-flex justify-content-end mb-4">
+                            <a class="btn btn-primary text-uppercase" href="{% url 'review_delete' review.id %}">삭제하기</a>
+                        </div>
+                        {% endif %}
+                        <!-- 수정하기, 삭제하기 버튼 끝 -->
+
+                        <!-- 내용 -->
+                        <h1 class="section-heading"> {{review.project_name}} </h1>
+                        <h3 class="review-author">작성자 : {{review.author}}</h3>
+                        <h4 class="review-language">{{ review.language }}</h4>
+                        <p class="review-code">{{ review.code }}</p>
+                        {% if review.photo %}
+                        <img src="{{ review.photo.url }}" alt="" height="300">
+                        {% endif %}
+                        <blockquote class="review-meta">{{ review.created_at }}</blockquote>
+                         <!-- 내용 끝 -->
+                    </div>
+
+                    <!--댓글 작성-->
+                    <h4>댓글</h4>
+                    {%if user.is_authenticated %}
+                    <form method="POST" action="{% url 'create_comment' review.id %}">
+                        {% csrf_token %}
+                        {{comment_form}}
+                        <input type="submit">
+                    </form>
+                    {%else %}
+                    <h>댓글 작성은 로그인 후 사용해주세요</h>
+                    {% endif %}
+                    <!--댓글 작성 여기까지-->
+
+                    <!--댓글 목록 조회-->
+                    <div>
+                        <hr>
+                        {% for comment in review.comment_set.all %}
+                        <!--작성자 추가-->
+                            <p> 댓글 작성자 : {{comment.author}}</p>
+                            <p>{{ comment }}</p>
+
+                            <!--댓글 수정/삭제 여기부터-->
+                            {% if request.user == comment.author %}
+                            <a class="btn btn-primary text-uppercase" 
+                            href="{% url 'update_comment' review.id comment.id %}">댓글 수정</a>
+
+                            <a class="btn btn-primary text-uppercase" 
+                            href="{% url 'delete_comment' review.id comment.id %}">댓글 삭제</a>
+                            <hr>
+                            {%endif %}
+                            <!--댓글 수정/삭제 여기까지-->
+
+                        {% endfor %}
+                        <!--댓글 목록 조회 여기까지-->
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- 여기까지 -->
+
+        
+        
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2023</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+</html>
